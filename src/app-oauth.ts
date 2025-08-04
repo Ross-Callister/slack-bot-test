@@ -1,6 +1,6 @@
-import { App, LogLevel } from '@slack/bolt';
-import { config } from 'dotenv';
-import registerListeners from './listeners';
+import { App, LogLevel } from "@slack/bolt";
+import { config } from "dotenv";
+import registerListeners from "./listeners";
 
 config();
 
@@ -12,8 +12,8 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
-  scopes: ['channels:history', 'chat:write', 'commands'],
+  stateSecret: "my-state-secret",
+  scopes: ["channels:history", "chat:write", "commands"],
   installationStore: {
     storeInstallation: async (installation) => {
       // Org-wide installation
@@ -26,7 +26,7 @@ const app = new App({
         tempDB.set(installation.team.id, installation);
         return;
       }
-      throw new Error('Failed saving installation data to installationStore');
+      throw new Error("Failed saving installation data to installationStore");
     },
     fetchInstallation: async (installQuery) => {
       // Org-wide installation lookup
@@ -37,7 +37,7 @@ const app = new App({
       if (installQuery.teamId !== undefined) {
         return tempDB.get(installQuery.teamId);
       }
-      throw new Error('Failed fetching installation');
+      throw new Error("Failed fetching installation");
     },
     deleteInstallation: async (installQuery) => {
       // Org-wide installation deletion
@@ -50,7 +50,7 @@ const app = new App({
         tempDB.delete(installQuery.teamId);
         return;
       }
-      throw new Error('Failed to delete installation');
+      throw new Error("Failed to delete installation");
     },
   },
   installerOptions: {
@@ -67,8 +67,8 @@ registerListeners(app);
 (async () => {
   try {
     await app.start(process.env.PORT || 3000);
-    app.logger.info('⚡️ Bolt app is running! ⚡️');
+    app.logger.info("⚡️ Bolt app is running! ⚡️");
   } catch (error) {
-    app.logger.error('Unable to start App', error);
+    app.logger.error("Unable to start App", error);
   }
 })();
